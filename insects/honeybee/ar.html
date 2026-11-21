@@ -7,8 +7,10 @@
 
   <title>Honeybee AR | Lucky Bee Farm</title>
 
+  <!-- A-Frame -->
   <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 
+  <!-- MindAR -->
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
   <style>
@@ -31,6 +33,24 @@
       z-index: 1000;
       pointer-events: none;
     }
+
+    #credits {
+      position: fixed;
+      bottom: 10px;
+      left: 5%;
+      width: 90%;
+      text-align: center;
+      color: white;
+      font-size: 11px;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.65);
+      padding: 8px 0;
+      border-radius: 8px;
+    }
+
+    #credits a {
+      color: #FFD700;
+    }
   </style>
 </head>
 
@@ -40,28 +60,58 @@
     🐝 Point your camera at your Lucky Bee Farm Honeybee card
   </div>
 
+  <div id="credits">
+    3D Model:
+    <a href="https://skfb.ly/op8ns" target="_blank">
+      Honey Bee by Shrikant
+    </a>
+    |
+    <a href="https://creativecommons.org/licenses/by/4.0/"
+       target="_blank">
+      CC BY 4.0
+    </a>
+  </div>
+
   <a-scene
     mindar-image="imageTargetSrc: ../../tracking/honeybee.mind;"
     color-space="sRGB"
-    renderer="colorManagement: true, physicallyCorrectLights"
+    renderer="colorManagement: true, physicallyCorrectLights: true"
     vr-mode-ui="enabled: false"
-    device-orientation-permission-ui="enabled: false">
+    device-orientation-permission-ui="enabled: false"
+    embedded>
 
+    <!-- Load the Honeybee Model -->
+    <a-assets>
+      <a-asset-item
+        id="honeybeeModel"
+        src="./models/honeybee.glb">
+      </a-asset-item>
+    </a-assets>
+
+    <!-- Camera -->
     <a-camera
       position="0 0 0"
       look-controls="enabled: false">
     </a-camera>
 
+    <!-- Lighting -->
+    <a-entity light="type: ambient; intensity: 1.5"></a-entity>
+
+    <a-entity
+      light="type: directional; intensity: 1"
+      position="1 2 3">
+    </a-entity>
+
+    <!-- Honeybee Tracking Target -->
     <a-entity mindar-image-target="targetIndex: 0">
 
-      <a-box
+      <!-- 3D Honeybee -->
+      <a-gltf-model
+        src="#honeybeeModel"
         position="0 0 0.15"
-        width="0.35"
-        height="0.35"
-        depth="0.30"
-        color="#FFD700"
-        rotation="20 30 0">
-      </a-box>
+        rotation="0 0 0"
+        scale="0.2 0.2 0.2">
+      </a-gltf-model>
 
     </a-entity>
 
